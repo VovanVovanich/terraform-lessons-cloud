@@ -6,6 +6,7 @@ data "aws_ami" "latest_amazon_linux" {
     values = ["amzn2-ami-hvm-*-x86_64-gp2"]
   }
 }
+
 resource "aws_instance" "web" {
   ami                    = data.aws_ami.latest_amazon_linux.id
   instance_type          = var.server_size
@@ -22,9 +23,10 @@ chkconfig httpd on
 EOF
   tags = {
     Name  = "${var.server_name}-WebServer"
-    Owner = "Denis Astahov"
+    Owner = "Vova"
   }
 }
+
 resource "aws_security_group" "web" {
   name_prefix = "${var.server_name}-WebServer-SG"
   ingress {
@@ -41,13 +43,14 @@ resource "aws_security_group" "web" {
   }
   tags = {
     Name  = "${var.server_name}-WebServer SecurityGroup"
-    Owner = "Denis Astahov"
+    Owner = "Vova"
   }
 }
+
 resource "aws_eip" "web" {
   instance = aws_instance.web.id
   tags = {
     Name  = "${var.server_name}-WebServer-IP"
-    Owner = "Denis Astahov"
+    Owner = "Vova"
   }
 }
